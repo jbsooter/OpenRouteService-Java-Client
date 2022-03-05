@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class DirectionsServiceGETRequest {
+    //TODO: add option to select profile rather than hardcode
     private ORSConnection connection;
 
     private double[] start;
