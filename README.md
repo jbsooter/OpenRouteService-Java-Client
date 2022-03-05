@@ -4,3 +4,4 @@ Simple Java Client to parse OpenRouteService JSON responses using Jackson.
 
 Tool to assist in generating classes mapped to JSON structures: https://github.com/joelittlejohn/jsonschema2pojo
 
+OpenRouteService API V2 Documentation: https://openrouteservice.org/dev/#/api-docs
