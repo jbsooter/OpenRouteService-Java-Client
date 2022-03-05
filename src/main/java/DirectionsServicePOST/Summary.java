@@ -19,6 +19,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 public class Summary {
 
+    @JsonProperty("amount")
+    private Double amount;
+    @JsonProperty("value")
+    private Double value;
     @JsonProperty("distance")
     private Double distance;
     @JsonProperty("duration")
@@ -70,6 +74,15 @@ public class Summary {
         this.descent = descent;
     }
 
+    @JsonProperty("amount")
+    public Double getAmount() {
+        return amount;
+    }
+    @JsonProperty("amount")
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
@@ -80,10 +93,12 @@ public class Summary {
         this.additionalProperties.put(name, value);
     }
 
+
     @Override
     public String toString() {
         return "Summary{" +
-                "distance=" + distance +
+                "amount=" + amount +
+                ", distance=" + distance +
                 ", duration=" + duration +
                 ", ascent=" + ascent +
                 ", descent=" + descent +

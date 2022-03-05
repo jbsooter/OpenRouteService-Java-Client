@@ -21,7 +21,7 @@ public class Surface {
     @JsonProperty("values")
     private List<List<Integer>> values = null;
     @JsonProperty("summary")
-    private List<Summary__2> summary = null;
+    private List<Summary> summary = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -36,12 +36,12 @@ public class Surface {
     }
 
     @JsonProperty("summary")
-    public List<Summary__2> getSummary() {
+    public List<Summary> getSummary() {
         return summary;
     }
 
     @JsonProperty("summary")
-    public void setSummary(List<Summary__2> summary) {
+    public void setSummary(List<Summary> summary) {
         this.summary = summary;
     }
 
