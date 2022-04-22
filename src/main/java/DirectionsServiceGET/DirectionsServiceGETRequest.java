@@ -13,7 +13,8 @@ public class DirectionsServiceGETRequest {
     public static DirectionsServiceGETResult getDirections(double latA, double lonA,double latB, double lonB, String profile, HttpClient clientConn) throws URISyntaxException, IOException, InterruptedException {
         //request route
         HttpRequest orsReq = HttpRequest.newBuilder(
-                new URI(String.format("http://localhost:8080/ors/v2/directions/%s?api_key=your-api-key&start=%s,%s&end=%s,%s",
+                new URI(String.format(
+                                "http://localhost:8080/ors/v2/directions/%s?api_key=your-api-key&start=%s,%s&end=%s,%s",
                         profile,lonA, latA, lonB, latB))).build();
         HttpResponse<String> orsResp = clientConn.send(orsReq, HttpResponse.BodyHandlers.ofString());
 
@@ -26,6 +27,7 @@ public class DirectionsServiceGETRequest {
         //o.w., return null object
         else
         {
+            System.out.println(orsResp.statusCode());
             return null;
         }
     }
