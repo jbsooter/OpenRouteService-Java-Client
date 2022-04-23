@@ -11,6 +11,10 @@ import java.net.http.HttpResponse;
 
 public class DirectionsServicePOSTRequest {
     /**
+     *Example: driving-car
+     */
+    private String profile;
+    /**
      * Point A Latitude
      */
     private Double latA;
@@ -68,12 +72,28 @@ public class DirectionsServicePOSTRequest {
      */
     private HttpClient clientConn;
 
-    public DirectionsServicePOSTRequest(Double latA, Double lonA, Double latB, Double lonB, HttpClient clientConn) {
+    /**
+     * Base URL
+     * LOCAL Example: http://localhost:8080/ors/v2/directions/
+     * OpenRouteService Hosted Example: https://api.openrouteservice.org/v2/directions/
+     */
+    private String baseURL;
+
+    /**
+     * API Key
+     * LOCAL Example: your-api-key
+     */
+    private String apiKey;
+
+    public DirectionsServicePOSTRequest(String profile, Double latA, Double lonA, Double latB, Double lonB, HttpClient clientConn, String baseURL, String apiKey) {
+        this.profile = profile;
         this.latA = latA;
         this.lonA = lonA;
         this.latB = latB;
         this.lonB = lonB;
         this.clientConn = clientConn;
+        this.baseURL = baseURL;
+        this.apiKey = apiKey;
         this.avgspeed = false;
         this.elevation = false;
         this.units = null;
@@ -82,7 +102,8 @@ public class DirectionsServicePOSTRequest {
         this.alternative_routes_share_factor = null;
     }
 
-    public DirectionsServicePOSTRequest(Double latA, Double lonA, Double latB, Double lonB, Double alternative_routes_share_factor, Integer alternative_routes_target_count, Double alternative_routes_weight_factor, Boolean avgspeed, Boolean elevation, String units, HttpClient clientConn) {
+    public DirectionsServicePOSTRequest(String profile, Double latA, Double lonA, Double latB, Double lonB, Double alternative_routes_share_factor, Integer alternative_routes_target_count, Double alternative_routes_weight_factor, Boolean avgspeed, Boolean elevation, String units, HttpClient clientConn, String baseURL, String apiKey) {
+        this.profile = profile;
         this.latA = latA;
         this.lonA = lonA;
         this.latB = latB;
@@ -94,6 +115,8 @@ public class DirectionsServicePOSTRequest {
         this.elevation = elevation;
         this.units = units;
         this.clientConn = clientConn;
+        this.baseURL = baseURL;
+        this.apiKey = apiKey;
     }
 
     public  DirectionsServicePOSTResult postDirections() throws URISyntaxException, IOException, InterruptedException {
@@ -129,9 +152,10 @@ public class DirectionsServicePOSTRequest {
 
 
         HttpRequest orsReq = HttpRequest.newBuilder(
-                        new URI("http://localhost:8080/ors/v2/directions/driving-car"))
+                        new URI(String.format("%s%s", baseURL, profile)))
                 .header("Accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8")
                 .header("Content-Type", "application/json; charset=utf-8")
+                .header("Authorization", apiKey)
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
 
         HttpResponse<String> orsResp = clientConn.send(orsReq,HttpResponse.BodyHandlers.ofString());
