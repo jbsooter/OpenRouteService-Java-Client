@@ -124,6 +124,7 @@ public class DirectionsServicePOSTRequest {
             requestBody+= String.format(",\"units\":\"%s\"", units);
         }
 
+        requestBody += ",\"geometry\":\"true\"";
         requestBody += "}";
 
 
@@ -139,7 +140,15 @@ public class DirectionsServicePOSTRequest {
         {
             ObjectMapper objectMapper = new ObjectMapper();
             System.out.println(orsResp.body());
-            return objectMapper.readValue(orsResp.body(), DirectionsServicePOSTResult.class);
+
+            DirectionsServicePOSTResult result = objectMapper.readValue(orsResp.body(), DirectionsServicePOSTResult.class);
+
+            //add decoded geometry to DirectionsServicePostResult
+            for(Route r: result.getRoutes())
+            {
+                r.setDecodedGeometry(GeometryDecoder.decodeGeometry(r.getGeometry(), elevation));
+            }
+            return result;
         }
         //o.w., return null object
         else

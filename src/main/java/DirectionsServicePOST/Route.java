@@ -31,6 +31,12 @@ public class Route {
     private List<Double> bbox = null;
     @JsonProperty("geometry")
     private String geometry;
+
+    /**
+     * [Lat,Lon,Elevation] for each waypoint in order
+     */
+    private List<List<Double>> decodedGeometry;
+
     @JsonProperty("way_points")
     private List<Integer> wayPoints = null;
     @JsonProperty("warnings")
@@ -118,6 +124,14 @@ public class Route {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public List<List<Double>> getDecodedGeometry() {
+        return decodedGeometry;
+    }
+
+    public void setDecodedGeometry(List<List<Double>> decodedGeometry) {
+        this.decodedGeometry = decodedGeometry;
     }
 
     @Override
