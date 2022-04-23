@@ -60,7 +60,8 @@ public class DirectionsServiceGETRequest {
         //o.w., return null object
         else
         {
-            System.out.println(orsResp.statusCode());
+            System.err.println("Directions GET request failed with Status Code: " + orsResp.statusCode());
+            System.err.println(orsResp.body());
             return null;
         }
     }

@@ -1,6 +1,5 @@
 package DirectionsServicePOST;
 
-import DirectionsServiceGET.DirectionsServiceGETResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -99,9 +98,12 @@ public class DirectionsServicePOSTRequest {
 
     public  DirectionsServicePOSTResult postDirections() throws URISyntaxException, IOException, InterruptedException {
         String requestBody = String.format("{\"coordinates\":[[%s,%s],[%s,%s]]", lonA, latA, lonB, latB);
+
         if(alternative_routes_share_factor != null && alternative_routes_target_count != null && alternative_routes_weight_factor != null)
         {
-            requestBody += String.format(",\"alternative_routes\":{\"share_factor\":%s,\"target_count\":%s,\"weight_factor\":%s}}"
+            requestBody += String.format(",\"alternative_routes\":{\"share_factor\":%s,\"target_count\":%s,\"weight_factor\":%s}"
+                   // "\"alternative_routes\":{\"share_factor\":0.6,\"target_count\":2,\"weight_factor\":1.4}"
+
                     , alternative_routes_share_factor
                     , alternative_routes_target_count
                     , alternative_routes_weight_factor);
@@ -109,7 +111,7 @@ public class DirectionsServicePOSTRequest {
 
         if(avgspeed)
         {
-            requestBody += "\"attributes\":[\"avgspeed\"]";
+            requestBody += ",\"attributes\":[\"avgspeed\"]";
         }
 
         if(elevation)
@@ -124,7 +126,6 @@ public class DirectionsServicePOSTRequest {
 
         requestBody += "}";
 
-        System.out.println(requestBody);
 
         HttpRequest orsReq = HttpRequest.newBuilder(
                         new URI("http://localhost:8080/ors/v2/directions/driving-car"))
@@ -143,7 +144,8 @@ public class DirectionsServicePOSTRequest {
         //o.w., return null object
         else
         {
-
+            System.err.println("Directions POST request failed with Status Code " + orsResp.statusCode());
+            System.err.println(orsResp.body());
             return null;
         }
     }
