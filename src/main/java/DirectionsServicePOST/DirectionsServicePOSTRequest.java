@@ -163,7 +163,6 @@ public class DirectionsServicePOSTRequest {
         if(orsResp.statusCode() == 200)
         {
             ObjectMapper objectMapper = new ObjectMapper();
-            System.out.println(orsResp.body());
 
             DirectionsServicePOSTResult result = objectMapper.readValue(orsResp.body(), DirectionsServicePOSTResult.class);
 
