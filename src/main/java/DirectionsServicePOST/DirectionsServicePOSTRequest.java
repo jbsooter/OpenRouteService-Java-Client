@@ -62,6 +62,10 @@ public class DirectionsServicePOSTRequest {
     private Boolean elevation;
 
     /**
+     * Govern the maximum speed at which a vehicle can travel (IN MPH)
+     */
+    private Double max_speed;
+    /**
      * Units of distance to use in response body.
      * Options "m", "km", "mi"
      */
@@ -102,7 +106,7 @@ public class DirectionsServicePOSTRequest {
         this.alternative_routes_share_factor = null;
     }
 
-    public DirectionsServicePOSTRequest(String profile, Double latA, Double lonA, Double latB, Double lonB, Double alternative_routes_share_factor, Integer alternative_routes_target_count, Double alternative_routes_weight_factor, Boolean avgspeed, Boolean elevation, String units, HttpClient clientConn, String baseURL, String apiKey) {
+    public DirectionsServicePOSTRequest(String profile, Double latA, Double lonA, Double latB, Double lonB, Double alternative_routes_share_factor, Integer alternative_routes_target_count, Double alternative_routes_weight_factor, Boolean avgspeed, Boolean elevation,Double max_speed, String units, HttpClient clientConn, String baseURL, String apiKey) {
         this.profile = profile;
         this.latA = latA;
         this.lonA = lonA;
@@ -113,6 +117,7 @@ public class DirectionsServicePOSTRequest {
         this.alternative_routes_weight_factor = alternative_routes_weight_factor;
         this.avgspeed = avgspeed;
         this.elevation = elevation;
+        this.max_speed = max_speed*1.60934; //conversion to KM/h required
         this.units = units;
         this.clientConn = clientConn;
         this.baseURL = baseURL;
@@ -125,8 +130,6 @@ public class DirectionsServicePOSTRequest {
         if(alternative_routes_share_factor != null && alternative_routes_target_count != null && alternative_routes_weight_factor != null)
         {
             requestBody += String.format(",\"alternative_routes\":{\"share_factor\":%s,\"target_count\":%s,\"weight_factor\":%s}"
-                   // "\"alternative_routes\":{\"share_factor\":0.6,\"target_count\":2,\"weight_factor\":1.4}"
-
                     , alternative_routes_share_factor
                     , alternative_routes_target_count
                     , alternative_routes_weight_factor);
@@ -139,7 +142,7 @@ public class DirectionsServicePOSTRequest {
 
         if(elevation)
         {
-            requestBody += ",\"elevation\":\"true\"";
+            requestBody += String.format(",\"elevation\":\"%s\"",elevation);
         }
 
         if(units != null)
@@ -148,6 +151,7 @@ public class DirectionsServicePOSTRequest {
         }
 
         requestBody += ",\"geometry\":\"true\"";
+        requestBody += String.format(",\"maximum_speed\":%s",max_speed);
         requestBody += "}";
 
 
