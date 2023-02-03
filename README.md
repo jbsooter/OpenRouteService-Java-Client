@@ -17,7 +17,7 @@ implementation files('../local_packages/ORS-J.jar')
 
 ### Example Usage
 
-Make a request for directions between (36.37,-94.2) and (36.39,-94.22) to a OpenRouteService. Sign up for an api key [here](). 
+Make a request for directions between (36.37,-94.2) and (36.39,-94.22) to a OpenRouteService. Sign up for an api key [here](https://openrouteservice.org/plans/). 
 ```java
 //create connection object for routing server
 HttpClient orsClient = HttpClient.newHttpClient();
